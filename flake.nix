@@ -1,11 +1,40 @@
 {
-  description = "A very basic flake";
+  description = "Buddha's reproducible configuration";
 
-  outputs = { self, nixpkgs }: {
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    darwin.url = "github:lnl7/nix-darwin";
+    home-manager.url = "github:nix-community/home-manager";
 
-    packages.x86_64-darwin.hello = nixpkgs.legacyPackages.x86_64-darwin.hello;
-
-    packages.x86_64-darwin.default = self.packages.x86_64-darwin.hello;
-
+    # Follows
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
+
+  outputs = { self, nixpkgs, darwin, home-manager }: {
+
+     darwinConfigurations.andriib = darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        modules = [
+          ./nix/darwin.nix
+          home-manager.darwinModules.home-manager
+        ];
+      };
+      homeConfigurations.andriib =
+        let system = "x86_64-darwin";
+            pkgs = nixpkgs.legacyPackages.${system};
+        in home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./nix/home.nix
+            {
+              nixpkgs.config.allowUnfreePredicate = (pkg: true);
+              home = {
+                username = "andriib";
+                homeDirectory = "/home/andriib";
+              };
+            }
+          ];
+        };
+    };
 }
