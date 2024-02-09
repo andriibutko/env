@@ -75,11 +75,11 @@ yabai -m config layout                      bsp
 
 
 
-yabai -m config top_padding                 "${gaps["top"]}"
-yabai -m config bottom_padding              "${gaps["bottom"]}"
-yabai -m config left_padding                "${gaps["left"]}"
-yabai -m config right_padding               "${gaps["right"]}"
-yabai -m config window_gap                  "${gaps["inner"]}"
+yabai -m config top_padding                 "''${gaps["top"]}"
+yabai -m config bottom_padding              "''${gaps["bottom"]}"
+yabai -m config left_padding                "''${gaps["left"]}"
+yabai -m config right_padding               "''${gaps["right"]}"
+yabai -m config window_gap                  "''${gaps["inner"]}"
 
 yabai -m config mouse_follows_focus         on
 yabai -m config focus_follows_mouse         off
@@ -90,9 +90,9 @@ yabai -m config window_shadow               float
 
 yabai -m config window_border               off
 yabai -m config window_border_width         2
-yabai -m config active_window_border_color  "${color["focused"]}"
-yabai -m config normal_window_border_color  "${color["normal"]}"
-yabai -m config insert_feedback_color       "${color["preselect"]}"
+yabai -m config active_window_border_color  "''${color["focused"]}"
+yabai -m config normal_window_border_color  "''${color["normal"]}"
+yabai -m config insert_feedback_color       "''${color["preselect"]}"
 
 yabai -m config active_window_opacity       1.0
 yabai -m config normal_window_opacity       0.90
@@ -124,13 +124,13 @@ yabai -m rule --add label="About This Mac" app="System Information" title="About
 
 # ===== Signals ================================
 
-yabai -m signal --add event=application_front_switched action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=display_changed action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=space_changed action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=window_created action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=window_destroyed action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=window_focused action="${ubersicht_spaces_refresh_command}"
-yabai -m signal --add event=window_title_changed action="${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=application_front_switched action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=display_changed action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=space_changed action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=window_created action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=window_destroyed action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=window_focused action="''${ubersicht_spaces_refresh_command}"
+yabai -m signal --add event=window_title_changed action="''${ubersicht_spaces_refresh_command}"
 
 set +x
 printf "yabai: configuration loaded...\\n"
@@ -143,14 +143,14 @@ YABAI_CERT=yabai-cert sh -c "$(curl -fsSL "https://git.io/update-yabai")" &
     target = ".config/skhd/skhdrc";
     text = ''
 # opens term
-alt + shift - return : "${HOME}"/.config/yabai/scripts/open_term.sh
+alt + shift - return : "''${HOME}"/.config/yabai/scripts/open_term.sh
 
 # Show system statistics
-# fn + lalt - 1 : "${HOME}"/.config/yabai/scripts/show_cpu.sh
-# fn + lalt - 2 : "${HOME}"/.config/yabai/scripts/show_mem.sh
-# fn + lalt - 3 : "${HOME}"/.config/yabai/scripts/show_bat.sh
-# fn + lalt - 4 : "${HOME}"/.config/yabai/scripts/show_disk.sh
-# fn + lalt - 5 : "${HOME}"/.config/yabai/scripts/show_song.sh
+# fn + lalt - 1 : "''${HOME}"/.config/yabai/scripts/show_cpu.sh
+# fn + lalt - 2 : "''${HOME}"/.config/yabai/scripts/show_mem.sh
+# fn + lalt - 3 : "''${HOME}"/.config/yabai/scripts/show_bat.sh
+# fn + lalt - 4 : "''${HOME}"/.config/yabai/scripts/show_disk.sh
+# fn + lalt - 5 : "''${HOME}"/.config/yabai/scripts/show_song.sh
 
 # Navigation
 alt - h : yabai -m window --focus west
@@ -158,7 +158,7 @@ alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
-shift + alt  - n : sudo "${HOME}"/.config/yabai/scripts/space_focus_next.sh
+shift + alt  - n : sudo "''${HOME}"/.config/yabai/scripts/space_focus_next.sh
 
 # Moving windows
 shift + alt - h : yabai -m window --warp west
@@ -218,7 +218,7 @@ shift + alt - space : \
 shift + lctrl + alt - r : \
     /usr/bin/env osascript <<< \
         "display notification \"Restarting Yabai\" with title \"Yabai\""; \
-    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+    launchctl kickstart -k "gui/''${UID}/homebrew.mxcl.yabai"
 
 # Make window native fullscreen
 alt - f         : yabai -m window --toggle zoom-fullscreen
