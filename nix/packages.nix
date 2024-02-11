@@ -1,6 +1,7 @@
 { pkgs, lib, stdenv, ... }:
 
 with pkgs;
+# TODO: remove haskell
 let exe = haskell.lib.justStaticExecutables;
 in [
   coreutils

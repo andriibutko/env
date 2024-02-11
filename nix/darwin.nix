@@ -45,13 +45,12 @@ experimental-features = nix-command flakes
     shells = [
       pkgs.fish
       pkgs.zsh
-      pkgs.bash
     ];
   };
 
   home-manager = {
     useGlobalPkgs = true;
-    users.d12frosted = lib.mkMerge [
+    users.andriib = lib.mkMerge [
       (import ./home.nix)
       {
         imports = [
@@ -65,6 +64,7 @@ experimental-features = nix-command flakes
     stateVersion = 4;
 
     defaults = {
+      # TODO: disable animations
       NSGlobalDomain = {
         AppleKeyboardUIMode = 3;
         ApplePressAndHoldEnabled = false;
@@ -76,6 +76,7 @@ experimental-features = nix-command flakes
         NSAutomaticPeriodSubstitutionEnabled = false;
         NSAutomaticQuoteSubstitutionEnabled = false;
         NSAutomaticSpellingCorrectionEnabled = false;
+        NSAutomaticWindowAnimationsEnabled = false;
         NSTableViewDefaultSizeMode = 2;
         _HIHideMenuBar = false;
         "com.apple.keyboard.fnState" = true;
@@ -112,7 +113,7 @@ experimental-features = nix-command flakes
 
   networking.hostName = "andriib";
   users = {
-    users.d12frosted = {
+    users.andriib = {
      shell = pkgs.fish;
      home = "/Users/andriib";
     };
@@ -143,22 +144,16 @@ experimental-features = nix-command flakes
       }
     ];
     casks = [
+      # TODO: uncomment when fixed
       # multimedia
-      "spotify"
-      "vlc"
+      # "spotify"
+      # "vlc"
 
-      # social
-      "telegram"
-
-      # other
-      "appcleaner"
+      # # social
+      # "telegram"
     ];
     taps = [
       "homebrew/bundle"
-      "homebrew/cask"
-      "homebrew/cask"
-      "homebrew/cask-drivers"
-      "homebrew/core"
       "homebrew/services"
       "koekeishiya/formulae"
     ];
@@ -166,8 +161,9 @@ experimental-features = nix-command flakes
 
 }
 
+
 # nix build --impure \
 #         ./#darwinConfigurations.andriib.system
 #       result/sw/bin/darwin-rebuild switch \
 #         --impure \
-#         --flake ./andriib
+#         --flake ./#andriib

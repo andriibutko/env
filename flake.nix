@@ -23,16 +23,15 @@
       homeConfigurations.andriib =
         let system = "x86_64-darwin";
             pkgs = nixpkgs.legacyPackages.${system};
+            overlays = [(import ./nix/overlays)];
         in home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./nix/home.nix
+            home-manager.darwinModules.home-manager
             {
               nixpkgs.config.allowUnfreePredicate = (pkg: true);
-              home = {
-                username = "andriib";
-                homeDirectory = "/home/andriib";
-              };
+              nixpkgs.overlays = overlays;
             }
           ];
         };

@@ -58,6 +58,21 @@ in {
       lfs.enable = true;
     };
 
+    starship = {
+      enable = true;
+      # Configuration written to ~/.config/starship.toml
+      settings = {
+        # add_newline = false;
+
+        # character = {
+        #   success_symbol = "[➜](bold green)";
+        #   error_symbol = "[➜](bold red)";
+        # };
+
+        # package.disabled = true;
+      };
+    };
+
     # gpg = {
     #   enable = true;
     #   settings = {
@@ -111,6 +126,10 @@ in {
             rev = "37117c3d8ed6b820f6dc647418a274ebd1281832";
             sha256 = "cScH1NzsuQnDZq0XGiay6o073WSRIAsshkySRa/gJc0=";
           };
+        }
+        {
+          name = "plugin-git";
+          src = pkgs.fishPlugins.plugin-git.src;
         }
       ];
       shellInit = ''
@@ -182,6 +201,11 @@ set fish_greeting "
     `-=-'          `--'
 "
 '';
+
+    };
+
+    alacritty = {
+      enable = true;
     };
   };
 }

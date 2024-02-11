@@ -1,5 +1,5 @@
 # nix managed
-alacritty/alacritty.yml
+alacritty/alacritty.toml
 fish/conf.d/
 fish/config.fish
 git
