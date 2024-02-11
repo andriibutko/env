@@ -1,9 +1,7 @@
 { pkgs, lib, stdenv, ... }:
 
 with pkgs;
-# TODO: remove haskell
-let exe = haskell.lib.justStaticExecutables;
-in [
+[
   coreutils
   fish
   git
@@ -16,8 +14,6 @@ in [
   gnused
   gnutar
   home-manager
-  hpack
-  imagemagick
   jq
   killall
   kubectl
