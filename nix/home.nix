@@ -51,10 +51,10 @@ in {
           path = "${config.xdg.configHome}/git/local.config";
         }
       ];
-      signing = {
-        key = "F9EBF09436BCB50F";
-        signByDefault = true;
-      };
+      # signing = {
+      #   key = "F9EBF09436BCB50F";
+      #   signByDefault = true;
+      # };
       lfs.enable = true;
     };
 
@@ -135,73 +135,25 @@ in {
       shellInit = ''
 # prompt configurations
 
-# done configurations
-set -g __done_notification_command 'notify send -t "$title" -m "$message"'
-set -g __done_enabled 1
-set -g __done_allow_nongraphical 1
-set -g __done_min_cmd_duration 8000
+set -Ux N_PREFIX $HOME/n/
 
-# see https://github.com/LnL7/nix-darwin/issues/122
-set -ga PATH ${config.xdg.configHome}/bin
-set -ga PATH $HOME/.local/bin
-set -ga PATH /run/wrappers/bin
-set -ga PATH $HOME/.nix-profile/bin
-if test $KERNEL_NAME darwin
-  set -ga PATH /opt/homebrew/opt/llvm/bin
-  set -ga PATH /opt/homebrew/bin
-  set -ga PATH /opt/homebrew/sbin
-end
-set -ga PATH /run/current-system/sw/bin
-set -ga PATH /nix/var/nix/profiles/default/bin
-macos_set_env prepend PATH /etc/paths '/etc/paths.d'
+export NIXPKGS_ALLOW_INSECURE=1
 
+function fish_greeting
+    # Get the current hour in 24-hour format
+    set current_hour $(date +%H)
 
-set -ga MANPATH $HOME/.local/share/man
-set -ga MANPATH $HOME/.nix-profile/share/man
-if test $KERNEL_NAME darwin
-  set -ga MANPATH /opt/homebrew/share/man
-end
-set -ga MANPATH /run/current-system/sw/share/man
-set -ga MANPATH /nix/var/nix/profiles/default/share/man
-macos_set_env append MANPATH /etc/manpaths '/etc/manpaths.d'
+    # Define the evening hours (6 PM to 11:59 PM)
+    set evening_start 18
+    set evening_end 23
 
-set -gp NIX_PATH nixpkgs=$HOME/.nix-defexpr/channels_root/nixpkgs
-
-if test $KERNEL_NAME darwin
-  set -gx HOMEBREW_PREFIX /opt/homebrew
-  set -gx HOMEBREW_CELLAR /opt/homebrew/Cellar
-  set -gx HOMEBREW_REPOSITORY /opt/homebrew
-  set -gp INFOPATH /opt/homebrew/share/info
-  set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib"
-  set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm/include"
+    if test $current_hour -ge $evening_start -a $current_hour -le $evening_end
+        echo -en "Dobry wieczór!\n\n"
+    else
+        echo -en "Dzień dobry!\n\n"
+    end
 end
 '';
-      interactiveShellInit = ''
-set fish_greeting "
-                       &    &     &
-                        &&&&  &  && &
-                &   &     && &&&&&&&
-                 &&& &       &&&& &&&
-              &&&&& &&& &   /~&&& &&   &&
-             && &&&&_&_&_ & \&&&&&&&& && &&
-                  &   &&\&&&&__&&&&&&&_/&&&  & &
-                         \|\\\__/_/   &&& &
-                         \_   _//     & &
-                               \\
-                                \\
-                                //~
-                                \\
-                                /~
-                                 /~
-             ;,'             (---./~~\.---)
-     _o_    ;:;'   ,          (          )
- ,-.'---`.__ ;      ~,         (________)
-((j`~=~=~',-'     ,____.
- `-\     /        |    j
-    `-=-'          `--'
-"
-'';
-
     };
 
     alacritty = {
