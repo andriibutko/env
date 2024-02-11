@@ -58,7 +58,7 @@ in {
       lfs.enable = true;
     };
 
-
+# TODO: git signing
     # gpg = {
     #   enable = true;
     #   settings = {
@@ -100,7 +100,6 @@ in {
       };
     };
 
-# TODO: add the current fish plugis
     fish = {
       enable = true;
       plugins = [
@@ -122,6 +121,20 @@ in {
 # prompt configurations
 
 set -Ux N_PREFIX $HOME/n/
+
+# see https://github.com/LnL7/nix-darwin/issues/122
+set -ga PATH ${config.xdg.configHome}/bin
+set -ga PATH $HOME/.local/bin
+set -ga PATH /run/wrappers/bin
+set -ga PATH $HOME/.nix-profile/bin
+if test $KERNEL_NAME darwin
+  set -ga PATH /opt/homebrew/opt/llvm/bin
+  set -ga PATH /opt/homebrew/bin
+  set -ga PATH /opt/homebrew/sbin
+end
+set -ga PATH /run/current-system/sw/bin
+set -ga PATH /nix/var/nix/profiles/default/bin
+macos_set_env prepend PATH /etc/paths '/etc/paths.d'
 
 export NIXPKGS_ALLOW_INSECURE=1
 

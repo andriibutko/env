@@ -45,6 +45,7 @@ experimental-features = nix-command flakes
     shells = [
       pkgs.fish
       pkgs.zsh
+      pkgs.bash
     ];
   };
 
@@ -64,7 +65,6 @@ experimental-features = nix-command flakes
     stateVersion = 4;
 
     defaults = {
-      # TODO: disable animations
       NSGlobalDomain = {
         AppleKeyboardUIMode = 3;
         ApplePressAndHoldEnabled = false;
@@ -107,7 +107,6 @@ experimental-features = nix-command flakes
 
     keyboard = {
       # enableKeyMapping = true;
-      # remapCapsLockToControl = true;
     };
   };
 
@@ -119,10 +118,10 @@ experimental-features = nix-command flakes
     };
   };
 
-  programs.fish.enable = true;
+  # programs.fish.enable = true;
 
-  programs.gnupg.agent.enable = true;
-  programs.gnupg.agent.enableSSHSupport = true;
+  # programs.gnupg.agent.enable = true;
+  # programs.gnupg.agent.enableSSHSupport = true;
 
   services = {
     nix-daemon.enable = true;
@@ -144,13 +143,12 @@ experimental-features = nix-command flakes
       }
     ];
     casks = [
-      # TODO: uncomment when fixed
       # multimedia
-      # "spotify"
-      # "vlc"
+      "spotify"
+      "vlc"
 
       # # social
-      # "telegram"
+      "telegram"
     ];
     taps = [
       "homebrew/bundle"
@@ -158,12 +156,4 @@ experimental-features = nix-command flakes
       "koekeishiya/formulae"
     ];
   };
-
 }
-
-
-# nix build --impure \
-#         ./#darwinConfigurations.andriib.system
-#       result/sw/bin/darwin-rebuild switch \
-#         --impure \
-#         --flake ./#andriib
