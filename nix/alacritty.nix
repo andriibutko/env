@@ -2,8 +2,8 @@
   window = {
     decorations = "none";
     dimensions = {
-      lines = 20;
-      columns = 200;
+      lines = 40;
+      columns = 100;
     };
   };
   keyboard.bindings = [ ];
