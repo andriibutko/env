@@ -1,6 +1,11 @@
 {
   window = {
     decorations = "none";
+    dimensions = {
+      lines = 20;
+      columns = 200;
+    };
   };
-  key_bindings = []
+  keyboard.bindings = [ ];
+  shell.program = "/run/current-system/sw/bin/fish";
 }

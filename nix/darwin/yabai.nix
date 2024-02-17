@@ -1,6 +1,8 @@
-{ config, pkgs, lib, ... }: let
+{ config, pkgs, lib, ... }:
+let
   jq = "${pkgs.jq}/bin/jq";
-in {
+in
+{
   home.file.yabai = {
     executable = true;
     target = ".config/yabai/yabairc";
@@ -134,23 +136,37 @@ yabai -m signal --add event=window_title_changed action="''${ubersicht_spaces_re
 
 set +x
 printf "yabai: configuration loaded...\\n"
-
-YABAI_CERT=yabai-cert sh -c "$(curl -fsSL "https://git.io/update-yabai")" &
 '';
   };
 
-  home.file.skhd = {
-    target = ".config/skhd/skhdrc";
-    text = ''
+  # TODO: FIXME
+  # home.file = {
+  #   ".config/yabai/scripts/open_term.sh".text = ''
+  #     #!/usr/bin/env bash
+
+  #     # Detects if iTerm2 is running
+  #     if ! pgrep -f "Alacritty" > /dev/null 2>&1; then
+  #         open -a "/Applications/Alacritty.app"
+  #     else
+  #         # Create a new window
+  #         script='tell application to create window with default profile'
+  #         ! osascript -e "${script}" > /dev/null 2>&1 && {
+  #             # Get pids for any app with" and kill
+  #             while IFS="" read -r pid; do
+  #                 kill -15 "${pid}"
+  #             done < <(pgrep -f "Allacrity")
+  #             open -a "/Applications/Alacritty.app"
+  #         }
+  #     fi
+
+  #   ''
+  #     };
+
+    home.file.skhd = {
+      target = ".config/skhd/skhdrc";
+      text = ''
 # opens term
 alt + shift - return : "''${HOME}"/.config/yabai/scripts/open_term.sh
-
-# Show system statistics
-# fn + lalt - 1 : "''${HOME}"/.config/yabai/scripts/show_cpu.sh
-# fn + lalt - 2 : "''${HOME}"/.config/yabai/scripts/show_mem.sh
-# fn + lalt - 3 : "''${HOME}"/.config/yabai/scripts/show_bat.sh
-# fn + lalt - 4 : "''${HOME}"/.config/yabai/scripts/show_disk.sh
-# fn + lalt - 5 : "''${HOME}"/.config/yabai/scripts/show_song.sh
 
 # Navigation
 alt - h : yabai -m window --focus west
@@ -169,15 +185,17 @@ shift + alt - l : yabai -m window --warp east
 # Move focus container to workspace
 shift + alt - m : yabai -m window --space last; yabai -m space --focus last
 shift + alt - p : yabai -m window --space prev; yabai -m space --focus prev
+
 shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
 shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
 shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
 shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
 
-fn + lalt - 1 : yabai -m space --focus 1
-fn + lalt - 2 : yabai -m space --focus 2
-fn + lalt - 3 : yabai -m space --focus 3
-fn + lalt - 4 : yabai -m space --focus 4
+# Move focus to workspace
+lalt - 1 : yabai -m space --focus 1
+lalt - 2 : yabai -m space --focus 2
+lalt - 3 : yabai -m space --focus 3
+lalt - 4 : yabai -m space --focus 4
 
 # Resize windows
 lctrl + alt - h : yabai -m window --resize left:-50:0; \

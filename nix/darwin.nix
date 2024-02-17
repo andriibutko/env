@@ -7,18 +7,19 @@
 # https://github.com/cmacrae/config/blob/master/modules/macintosh.nix
 
 let
-  fullName       = "Andrii Butko";
-  user           = builtins.getEnv "USER";
-  home           = builtins.getEnv "HOME";
+  fullName = "Andrii Butko";
+  user = builtins.getEnv "USER";
+  home = builtins.getEnv "HOME";
   xdg_configHome = "${home}/.config";
-in {
+in
+{
   time.timeZone = "Europe/Warsaw";
 
   nix = {
     package = pkgs.nixFlakes;
 
     extraOptions = ''
-experimental-features = nix-command flakes
+      experimental-features = nix-command flakes
     '';
 
     configureBuildUsers = true;
@@ -28,11 +29,11 @@ experimental-features = nix-command flakes
 
       trusted-users = [ "root" "andriib" ];
 
-# TODO: what is public keys?
+      # TODO: what is public keys?
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-# TODO: what is substituters?
+      # TODO: what is substituters?
       trusted-substituters = [
         "https://cachix.org/api/v1/cache/nix-community"
         "https://cachix.org/api/v1/cache/deploy-rs"
@@ -42,10 +43,10 @@ experimental-features = nix-command flakes
   };
 
   environment = {
-    shells = [
-      pkgs.fish
-      pkgs.zsh
-      pkgs.bash
+    shells = with pkgs; [
+      fish
+      zsh
+      bash
     ];
   };
 
@@ -113,12 +114,13 @@ experimental-features = nix-command flakes
   networking.hostName = "andriib";
   users = {
     users.andriib = {
-     shell = pkgs.fish;
-     home = "/Users/andriib";
+      shell = pkgs.fish;
+      home = "/Users/andriib";
     };
   };
 
-  # programs.fish.enable = true;
+  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   # programs.gnupg.agent.enable = true;
   # programs.gnupg.agent.enableSSHSupport = true;
@@ -135,20 +137,20 @@ experimental-features = nix-command flakes
     brews = [
       {
         name = "yabai";
-        args = [];
+        args = [ ];
       }
       {
         name = "skhd";
-        args = [];
+        args = [ ];
       }
     ];
     casks = [
       # multimedia
-      "spotify"
-      "vlc"
+      # "spotify"
+      # "vlc"
 
-      # # social
-      "telegram"
+      # # # social
+      # "telegram"
     ];
     taps = [
       "homebrew/bundle"

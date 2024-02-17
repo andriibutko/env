@@ -4,25 +4,26 @@
 #
 
 let
-  home         = config.home.homeDirectory;
-  tmpdir       = "/tmp";
-in {
+  home = config.home.homeDirectory;
+  tmpdir = "/tmp";
+in
+{
   home = {
     # These are packages that should always be present in the user
     # environment, though perhaps not the machine environment.
-    packages = pkgs.callPackage ./packages.nix {};
+    packages = pkgs.callPackage ./packages.nix { };
 
     stateVersion = "22.11";
 
     sessionVariables = {
-      NIX_CONF              = "${config.xdg.configHome}/nix";
-      PROJECTS_HOME         = "${home}/Developer";
-      XDG_CACHE_HOME        = config.xdg.cacheHome;
-      XDG_CONFIG_HOME       = config.xdg.configHome;
-      XDG_DATA_HOME         = config.xdg.dataHome;
+      NIX_CONF = "${config.xdg.configHome}/nix";
+      PROJECTS_HOME = "${home}/Developer";
+      XDG_CACHE_HOME = config.xdg.cacheHome;
+      XDG_CONFIG_HOME = config.xdg.configHome;
+      XDG_DATA_HOME = config.xdg.dataHome;
       QT_XCB_GL_INTEGRATION = "none";
     };
-    sessionPath = [];
+    sessionPath = [ ];
 
   };
 
@@ -58,7 +59,7 @@ in {
       lfs.enable = true;
     };
 
-# TODO: git signing
+    # TODO: git signing
     # gpg = {
     #   enable = true;
     #   settings = {
@@ -78,8 +79,8 @@ in {
     ssh = {
       enable = true;
 
-      controlMaster  = "auto";
-      controlPath    = "${tmpdir}/ssh-%u-%r@%h:%p";
+      controlMaster = "auto";
+      controlPath = "${tmpdir}/ssh-%u-%r@%h:%p";
       controlPersist = "1800";
 
       forwardAgent = true;
@@ -88,17 +89,51 @@ in {
       hashKnownHosts = true;
       userKnownHostsFile = "${home}/.ssh/known_hosts";
 
+# // TODO FIXME
+      # extraConfig = {
+      #   # credential.helper = "${
+      #   #   pkgs.git.override { withLibsecret = true; }
+      #   # }/bin/git-credential-libsecret";
+      #   push = { autoSetupRemote = true; };
+      # };
+
       matchBlocks = {
         keychain = {
           host = "*";
           extraOptions = {
-            UseKeychain    = "yes";
+            UseKeychain = "yes";
             AddKeysToAgent = "yes";
-            IgnoreUnknown  = "UseKeychain";
+            IgnoreUnknown = "UseKeychain";
           };
         };
       };
     };
+
+    zsh = {
+      plugins = [
+        {
+          # will source zsh-autosuggestions.plugin.zsh
+          name = "zsh-autosuggestions";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.4.0";
+            sha256 = "0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc";
+          };
+        }
+        {
+          name = "enhancd";
+          file = "init.sh";
+          src = pkgs.fetchFromGitHub {
+            owner = "b4b4r07";
+            repo = "enhancd";
+            rev = "v2.2.1";
+            sha256 = "0iqa9j09fwm6nj5rpip87x3hnvbbz9w9ajgm6wkrd5fls8fn8i5g";
+          };
+        }
+      ];
+    };
+
 
     fish = {
       enable = true;
@@ -118,45 +153,46 @@ in {
         }
       ];
       shellInit = ''
-# prompt configurations
+        # prompt configurations
 
-set -Ux N_PREFIX $HOME/n/
+        set -Ux N_PREFIX $HOME/n/
 
-# see https://github.com/LnL7/nix-darwin/issues/122
-set -ga PATH ${config.xdg.configHome}/bin
-set -ga PATH $HOME/.local/bin
-set -ga PATH /run/wrappers/bin
-set -ga PATH $HOME/.nix-profile/bin
-if test $KERNEL_NAME darwin
-  set -ga PATH /opt/homebrew/opt/llvm/bin
-  set -ga PATH /opt/homebrew/bin
-  set -ga PATH /opt/homebrew/sbin
-end
-set -ga PATH /run/current-system/sw/bin
-set -ga PATH /nix/var/nix/profiles/default/bin
-macos_set_env prepend PATH /etc/paths '/etc/paths.d'
+        # see https://github.com/LnL7/nix-darwin/issues/122
+        set -ga PATH ${config.xdg.configHome}/bin
+        set -ga PATH $HOME/.local/bin
+        set -ga PATH /run/wrappers/bin
+        set -ga PATH $HOME/.nix-profile/bin
+        if test $KERNEL_NAME darwin
+          set -ga PATH /opt/homebrew/opt/llvm/bin
+          set -ga PATH /opt/homebrew/bin
+          set -ga PATH /opt/homebrew/sbin
+        end
+        set -ga PATH /run/current-system/sw/bin
+        set -ga PATH /nix/var/nix/profiles/default/bin
+        macos_set_env prepend PATH /etc/paths '/etc/paths.d'
 
-export NIXPKGS_ALLOW_INSECURE=1
+        export NIXPKGS_ALLOW_INSECURE=1
 
-function fish_greeting
-    # Get the current hour in 24-hour format
-    set current_hour $(date +%H)
+        function fish_greeting
+            # Get the current hour in 24-hour format
+            set current_hour $(date +%H)
 
-    # Define the evening hours (6 PM to 11:59 PM)
-    set evening_start 18
-    set evening_end 23
+            # Define the evening hours (6 PM to 11:59 PM)
+            set evening_start 18
+            set evening_end 23
 
-    if test $current_hour -ge $evening_start -a $current_hour -le $evening_end
-        echo -en "Dobry wieczór!\n\n"
-    else
-        echo -en "Dzień dobry!\n\n"
-    end
-end
-'';
+            if test $current_hour -ge $evening_start -a $current_hour -le $evening_end
+                echo -en "Dobry wieczór!\n\n"
+            else
+                echo -en "Dzień dobry!\n\n"
+            end
+        end
+      '';
     };
 
     alacritty = {
       enable = true;
+      settings = (import ./alacritty.nix);
     };
   };
 }
