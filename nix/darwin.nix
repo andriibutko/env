@@ -88,6 +88,7 @@ in
 
       dock = {
         autohide = true;
+        expose-group-by-app = true;
         launchanim = false;
         minimize-to-application = true;
         mru-spaces = false;
@@ -104,10 +105,15 @@ in
       trackpad = {
         Clicking = true;
       };
+
+      universalaccess = {
+        reduceMotion = true;
+        reduceTransparency = true;
+      };
     };
 
     keyboard = {
-      # enableKeyMapping = true;
+      enableKeyMapping = true;
     };
   };
 
