@@ -3,6 +3,7 @@
   home.file.yabai = {
     target = ".config/yabai/yabairc";
     source = ./yabairc;
+    executable = true;
   };
 
   home.file = {
@@ -23,5 +24,6 @@
   home.file.skhd = {
     target = ".config/skhd/skhdrc";
     source = ./skhdrc;
+    executable = true;
   };
 }
