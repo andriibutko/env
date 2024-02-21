@@ -53,8 +53,8 @@ setup_space 2 web
 setup_space 3 social
 setup_space 4 other
 
-# move some apps automatically to specific spaces
-yabai -m rule --add app="^Idea$" space=1
+# ===== Apps Binding to Spaces =================
+yabai -m rule --add app="^IntelliJ IDEA$" space=1
 yabai -m rule --add app="^Visual Studio Code$" space=1
 yabai -m rule --add app="^Safari$" space=2
 yabai -m rule --add app="^Firefox$" space=2
@@ -65,8 +65,6 @@ yabai -m rule --add app="^Spotify$" space=3
 # ===== Tiling setting =========================
 
 yabai -m config layout                      bsp
-
-
 
 yabai -m config top_padding                 "${gaps["top"]}"
 yabai -m config bottom_padding              "${gaps["bottom"]}"
@@ -98,6 +96,12 @@ yabai -m config mouse_action1               move
 yabai -m config mouse_action2               resize
 
 # ===== Rules ==================================
+
+# Fixing JB Apps Tiling (see https://github.com/koekeishiya/yabai/issues/1687)
+yabai -m rule --add app="${JB_Apps}" manage=off
+# If `Open last project when launch` is checked, add this rule. And make sure `always show project path` is also checked.
+# yabai -m rule --add app="${JB_Apps}" title=".*\[.*\].*" manage=on 
+yabai -m rule --add app="${JB_Apps}" title="^$"  manage=on
 
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
