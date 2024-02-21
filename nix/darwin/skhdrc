@@ -7,8 +7,8 @@ alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
-fn + alt  - n : sudo "${HOME}"/.config/yabai/scripts/space_cycle_next.sh
-fn + alt  - p : sudo "${HOME}"/.config/yabai/scripts/space_cycle_prev.sh
+fn + alt  - n : yabai -m space --focus next || yabai -m space --focus first
+fn + alt  - p : yabai -m space --focus prev || yabai -m space --focus last
 
 # Moving windows
 shift + alt - h : yabai -m window --warp west
@@ -17,8 +17,9 @@ shift + alt - k : yabai -m window --warp north
 shift + alt - l : yabai -m window --warp east
 
 # Move focus container to workspace
-shift + alt - m : yabai -m window --space last; yabai -m space --focus last
-shift + alt - p : yabai -m window --space prev; yabai -m space --focus prev
+# TODO: focus on the moved window (based on the events?)
+shift + alt - m : yabai -m window --space next || yabai -m window --space first; yabai -m space --focus next || yabai -m space --focus first
+shift + alt - p : yabai -m window --space prev ||  yabai -m window --space last; yabai -m space --focus prev || yabai -m space --focus last
 
 shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
 shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2

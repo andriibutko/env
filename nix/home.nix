@@ -52,29 +52,8 @@ in
           path = "${config.xdg.configHome}/git/local.config";
         }
       ];
-      # signing = {
-      #   key = "F9EBF09436BCB50F";
-      #   signByDefault = true;
-      # };
       lfs.enable = true;
     };
-
-    # TODO: git signing
-    # gpg = {
-    #   enable = true;
-    #   settings = {
-    #     default-key = "F9EBF09436BCB50F";
-
-    #     auto-key-locate = "keyserver";
-    #     keyserver = "hkps://hkps.pool.sks-keyservers.net";
-    #     keyserver-options = "no-honor-keyserver-url include-revoked auto-key-retrieve";
-    #   };
-    #   scdaemonSettings = {
-    #     card-timeout = "1";
-    #     disable-ccid = true;
-    #     pcsc-driver = "/System/Library/Frameworks/PCSC.framework/PCSC";
-    #   };
-    # };
 
     ssh = {
       enable = true;

@@ -128,9 +128,6 @@ in
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
-  # programs.gnupg.agent.enable = true;
-  # programs.gnupg.agent.enableSSHSupport = true;
-
   services = {
     nix-daemon.enable = true;
     activate-system.enable = true;
@@ -152,8 +149,8 @@ in
     ];
     casks = [
       # multimedia
-      # "spotify"
-      # "vlc"
+      "spotify"
+      "vlc"
 
       # # # social
       # "telegram"
