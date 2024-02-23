@@ -148,12 +148,7 @@ in
       }
     ];
     casks = [
-      # multimedia
-      "spotify"
-      "vlc"
-
-      # # # social
-      # "telegram"
+      "gh"
     ];
     taps = [
       "homebrew/bundle"

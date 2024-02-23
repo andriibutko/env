@@ -22,6 +22,11 @@ with pkgs;
   sqlite
   unzip
   wget
+  iredis
+  gh
+  telegram-desktop
+  vlc
+  spotify
 ] ++ lib.optionals stdenv.isDarwin [
 
 ] ++ [
