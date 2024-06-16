@@ -14,14 +14,14 @@
   outputs = { self, nixpkgs, darwin, home-manager }: {
 
      darwinConfigurations.andriib = darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
+        system = "aarch64-darwin";
         modules = [
           ./nix/darwin.nix
           home-manager.darwinModules.home-manager
         ];
       };
       homeConfigurations.andriib =
-        let system = "x86_64-darwin";
+        let system = "aarch64-darwin";
             pkgs = nixpkgs.legacyPackages.${system};
         in home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

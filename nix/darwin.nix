@@ -105,11 +105,6 @@ in
       trackpad = {
         Clicking = true;
       };
-
-      universalaccess = {
-        reduceMotion = true;
-        reduceTransparency = true;
-      };
     };
 
     keyboard = {
@@ -136,7 +131,7 @@ in
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
-    onActivation.cleanup = "uninstall"; # removes manually install brews and casks
+    # onActivation.cleanup = "uninstall"; # removes manually install brews and casks
     brews = [
       {
         name = "yabai";
@@ -146,9 +141,6 @@ in
         name = "skhd";
         args = [ ];
       }
-    ];
-    casks = [
-      "gh"
     ];
     taps = [
       "homebrew/bundle"

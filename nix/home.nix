@@ -55,39 +55,6 @@ in
       lfs.enable = true;
     };
 
-    ssh = {
-      enable = true;
-
-      controlMaster = "auto";
-      controlPath = "${tmpdir}/ssh-%u-%r@%h:%p";
-      controlPersist = "1800";
-
-      forwardAgent = true;
-      serverAliveInterval = 60;
-
-      hashKnownHosts = true;
-      userKnownHostsFile = "${home}/.ssh/known_hosts";
-
-# // TODO FIXME
-      # extraConfig = {
-      #   # credential.helper = "${
-      #   #   pkgs.git.override { withLibsecret = true; }
-      #   # }/bin/git-credential-libsecret";
-      #   push = { autoSetupRemote = true; };
-      # };
-
-      matchBlocks = {
-        keychain = {
-          host = "*";
-          extraOptions = {
-            UseKeychain = "yes";
-            AddKeysToAgent = "yes";
-            IgnoreUnknown = "UseKeychain";
-          };
-        };
-      };
-    };
-
     zsh = {
       plugins = [
         {
