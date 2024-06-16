@@ -141,6 +141,35 @@ in
         name = "skhd";
         args = [ ];
       }
+
+      "ca-certificates"
+      "openssl@3"
+      "docker"
+      "python@3.10"
+      "docker-completion"
+      "readline"
+      "docker-credential-helper"
+      "redis"
+      "gdbm"
+      "skhd"
+      "gnu-sed"
+      "sqlite"
+      "go"
+      "xz"
+    ];
+    casks = [
+      "jetbrains-toolbox"
+      "telegram"
+      "anki"
+			"obsidian"
+      "visual-studio-code"
+      "arc"
+      "rancher"
+      "zoom"
+      "fork"
+      "slack"
+      "grammarly-desktop"
+      "spotify"
     ];
     taps = [
       "homebrew/bundle"
