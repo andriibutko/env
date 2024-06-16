@@ -80,62 +80,6 @@ in
       ];
     };
 
-
-    fish = {
-      enable = true;
-      plugins = [
-        {
-          name = "done";
-          src = pkgs.fetchFromGitHub {
-            owner = "franciscolourenco";
-            repo = "done";
-            rev = "37117c3d8ed6b820f6dc647418a274ebd1281832";
-            sha256 = "cScH1NzsuQnDZq0XGiay6o073WSRIAsshkySRa/gJc0=";
-          };
-        }
-        {
-          name = "plugin-git";
-          src = pkgs.fishPlugins.plugin-git.src;
-        }
-      ];
-      shellInit = ''
-        # prompt configurations
-
-        set -Ux N_PREFIX $HOME/n/
-
-        # see https://github.com/LnL7/nix-darwin/issues/122
-        set -ga PATH ${config.xdg.configHome}/bin
-        set -ga PATH $HOME/.local/bin
-        set -ga PATH /run/wrappers/bin
-        set -ga PATH $HOME/.nix-profile/bin
-        if test $KERNEL_NAME darwin
-          set -ga PATH /opt/homebrew/opt/llvm/bin
-          set -ga PATH /opt/homebrew/bin
-          set -ga PATH /opt/homebrew/sbin
-        end
-        set -ga PATH /run/current-system/sw/bin
-        set -ga PATH /nix/var/nix/profiles/default/bin
-        macos_set_env prepend PATH /etc/paths '/etc/paths.d'
-
-        export NIXPKGS_ALLOW_INSECURE=1
-
-        function fish_greeting
-            # Get the current hour in 24-hour format
-            set current_hour $(date +%H)
-
-            # Define the evening hours (6 PM to 11:59 PM)
-            set evening_start 18
-            set evening_end 23
-
-            if test $current_hour -ge $evening_start -a $current_hour -le $evening_end
-                echo -en "Dobry wieczór!\n\n"
-            else
-                echo -en "Dzień dobry!\n\n"
-            end
-        end
-      '';
-    };
-
     alacritty = {
       enable = true;
       settings = (import ./alacritty.nix);
