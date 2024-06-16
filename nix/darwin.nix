@@ -170,6 +170,7 @@ in
       "slack"
       "grammarly-desktop"
       "spotify"
+      "iterm2"
     ];
     taps = [
       "homebrew/bundle"
