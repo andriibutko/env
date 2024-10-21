@@ -133,29 +133,10 @@ in
     onActivation.autoUpdate = true;
     # onActivation.cleanup = "uninstall"; # removes manually install brews and casks
     brews = [
-      {
-        name = "yabai";
-        args = [ ];
-      }
-      {
-        name = "skhd";
-        args = [ ];
-      }
-
-      "ca-certificates"
-      "openssl@3"
-      "docker"
-      "python@3.10"
-      "docker-completion"
-      "readline"
-      "docker-credential-helper"
-      "redis"
-      "gdbm"
       "skhd"
-      "gnu-sed"
-      "sqlite"
+      "yabai"
+      "skhd"
       "go"
-      "xz"
     ];
     casks = [
       "jetbrains-toolbox"

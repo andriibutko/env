@@ -1,79 +1,47 @@
-#!/usr/bin/env bash
+# enable dock patching
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
 
-set -x
+# enable debug output
+yabai -m config debug_output on
 
-# ====== Variables =============================
+# ====== CONFIGS =============================
 
-declare -A gaps
-declare -A color
+# New window spawns to the right if vertical split, or bottom if horizontal split
+yabai -m config window_placement second_child
 
-gaps["top"]="4"
-gaps["bottom"]="24"
-gaps["left"]="4"
-gaps["right"]="4"
-gaps["inner"]="4"
+# ===== Setup spaces =====
 
-color["focused"]="0xE0808080"
-color["normal"]="0x00010101"
-color["preselect"]="0xE02d74da"
-
-# Uncomment to refresh ubersicht widget on workspace change
-# Make sure to replace WIDGET NAME for the name of the ubersicht widget
-#ubersicht_spaces_refresh_command="osascript -e 'tell application id \"tracesOf.Uebersicht\" to refresh widget id \"WIDGET NAME\"'"
-
-# ===== Loading Scripting Additions ============
-
-# See: https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#macos-big-sur---automatically-load-scripting-addition-on-startup
-# sudo yabai --load-sa
-# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-
-#
-# setup spaces
-
-# for _ in $(yabai -m query --spaces | jq '.[].index | select(. > 4)'); do
-# yabai -m space --destroy 5
-# done
-
-# function setup_space {
-#     local idx="$1"
-#     local name="$2"
-#     local space=
-#     echo "setup space $idx : $name"
-
-#     space=$(yabai -m query --spaces --space "$idx")
-#     if [ -z "$space" ]; then
-#     yabai -m space --create
-#     fi
-
-#     yabai -m space "$idx" --label "$name"
-# }
-
-# setup_space 1 code
-# setup_space 2 web
-# setup_space 3 social
-# setup_space 4 other
+yabai -m space 1 --label code
+yabai -m space 2 --label web
+yabai -m space 3 --label social
+yabai -m space 4 --label other
 
 # ===== Apps Binding to Spaces =================
-# yabai -m rule --add app="^IntelliJ IDEA$" space=1
-# yabai -m rule --add app="^Visual Studio Code$" space=1
-# yabai -m rule --add app="^Safari$" space=2
-# yabai -m rule --add app="^Firefox$" space=2
-# yabai -m rule --add app="^Arc$" space=2
-# yabai -m rule --add app="^Telegram$" space=3
-# yabai -m rule --add app="^Spotify$" space=3
+yabai -m rule --add app="^IntelliJ IDEA$" space=1
+yabai -m rule --add app="^Visual Studio Code$" space=1
+yabai -m rule --add app="^Safari$" space=2
+yabai -m rule --add app="^Firefox$" space=2
+yabai -m rule --add app="^Arc$" space=2
+yabai -m rule --add app="^Telegram$" space=3
+yabai -m rule --add app="^Spotify$" space=3
 
 # ===== Tiling setting =========================
 
+# bsp or float (default: float)
 yabai -m config layout                      bsp
 
-yabai -m config top_padding                 "${gaps["top"]}"
-yabai -m config bottom_padding              "${gaps["bottom"]}"
-yabai -m config left_padding                "${gaps["left"]}"
-yabai -m config right_padding               "${gaps["right"]}"
-yabai -m config window_gap                  "${gaps["inner"]}"
+yabai -m config top_padding                 4
+yabai -m config bottom_padding              4
+yabai -m config left_padding                4
+yabai -m config right_padding               4
+yabai -m config window_gap                  4
 
 yabai -m config mouse_follows_focus         on
-yabai -m config focus_follows_mouse         off
+
+# set focus follows mouse mode (default: off, options: off, autoraise, autofocus)
+# yabai -m config focus_follows_mouse autoraise
+
 
 yabai -m config window_opacity              off
 yabai -m config window_shadow               float
@@ -88,12 +56,11 @@ yabai -m config mouse_action2               resize
 
 # ===== Rules ==================================
 
-JB_Apps='^(IntelliJ IDEA)$'
-# Fixing JB Apps Tiling (see https://github.com/koekeishiya/yabai/issues/1687)
-yabai -m rule --add app="${JB_Apps}" manage=off
-# If `Open last project when launch` is checked, add this rule. And make sure `always show project path` is also checked.
-# yabai -m rule --add app="${JB_Apps}" title=".*\[.*\].*" manage=on 
-yabai -m rule --add app="${JB_Apps}" title="^$"  manage=on
+# Do not manage IntelliJ except for main window
+yabai -m rule --add app="^IntelliJ.*" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" manage=off
+
+# Do not manage System Settings
+yabai -m rule --add label="System Settings" app="^System Settings$" title=".*" manage=off
 
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
@@ -107,5 +74,4 @@ yabai -m rule --add label="Software Update" title="Software Update" manage=off
 yabai -m rule --add label="Telegram" app="^Telegram" manage=off
 yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
 
-set +x
 printf "yabai: configuration loaded...\\n"
