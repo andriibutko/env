@@ -11,27 +11,45 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager }: {
+  outputs = { self, nixpkgs, darwin, home-manager }: 
+  let
+    system = "aarch64-darwin";
+  in {
 
-     darwinConfigurations.andriib = darwin.lib.darwinSystem {
+    nixpkgs.overlays = [
+      (final: prev: {
+        config = {
+          allowUnfree = true;
+        };
+      })
+    ];
+
+    darwinConfigurations.andriib = darwin.lib.darwinSystem {
+      system = system;
+      modules = [
+        ./nix/darwin.nix
+        home-manager.darwinModules.home-manager
+      ];
+    };
+
+    homeConfigurations.andriib =
+      let
         system = "aarch64-darwin";
+        pkgs = nixpkgs.legacyPackages.${system};
+        lib = nixpkgs.lib;
+      in
+      home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
         modules = [
-          ./nix/darwin.nix
+          ./nix/home.nix
           home-manager.darwinModules.home-manager
+          {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+              "aspell-dict-en-science"
+            ];
+          }
         ];
       };
-      homeConfigurations.andriib =
-        let system = "aarch64-darwin";
-            pkgs = nixpkgs.legacyPackages.${system};
-        in home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./nix/home.nix
-            home-manager.darwinModules.home-manager
-            {
-              nixpkgs.config.allowUnfreePredicate = (pkg: true);
-            }
-          ];
-        };
-    };
+  };
 }

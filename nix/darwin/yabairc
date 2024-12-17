@@ -40,7 +40,7 @@ yabai -m config window_gap                  4
 yabai -m config mouse_follows_focus         on
 
 # set focus follows mouse mode (default: off, options: off, autoraise, autofocus)
-# yabai -m config focus_follows_mouse autoraise
+yabai -m config focus_follows_mouse off 
 
 
 yabai -m config window_opacity              off
@@ -61,6 +61,9 @@ yabai -m rule --add app="^IntelliJ.*" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" man
 
 # Do not manage System Settings
 yabai -m rule --add label="System Settings" app="^System Settings$" title=".*" manage=off
+
+# Do not manage System Settings
+yabai -m rule --add label="Chrome" app="^System Settings$" title=".*" manage=off
 
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off

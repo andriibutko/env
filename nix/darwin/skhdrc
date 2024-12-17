@@ -7,6 +7,9 @@ alt - j : /opt/homebrew/bin/yabai -m window --focus south
 alt - k : /opt/homebrew/bin/yabai -m window --focus north
 alt - l : /opt/homebrew/bin/yabai -m window --focus east
 
+lalt - 0x2B : "${HOME}"/.config/yabai/scripts/space_focus.sh prev
+lalt - 0x2F : "${HOME}"/.config/yabai/scripts/space_focus.sh next
+
 fn + alt  - n : /opt/homebrew/bin/yabai -m space --focus next || /opt/homebrew/bin/yabai -m space --focus first
 fn + alt  - p : /opt/homebrew/bin/yabai -m space --focus prev || /opt/homebrew/bin/yabai -m space --focus last
 

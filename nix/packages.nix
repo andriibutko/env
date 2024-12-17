@@ -22,7 +22,7 @@ with pkgs;
 ] ++ [
   # all things editor
   (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
-  nixfmt
+  nixfmt-classic
   nixpkgs-fmt
   shellcheck
 ]
