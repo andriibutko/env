@@ -2,7 +2,7 @@
   description = "Buddha's reproducible configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
     darwin.url = "github:lnl7/nix-darwin";
     home-manager.url = "github:nix-community/home-manager";
 
@@ -11,7 +11,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager }: 
+  outputs = { self, nixpkgs, darwin, home-manager }:
   let
     system = "aarch64-darwin";
   in {
@@ -24,30 +24,31 @@
       })
     ];
 
-    darwinConfigurations.andriib = darwin.lib.darwinSystem {
+    darwinConfigurations.andriibutko = darwin.lib.darwinSystem {
       system = system;
       modules = [
-        ./nix/darwin.nix
+      ./nix/darwin.nix
         home-manager.darwinModules.home-manager
       ];
     };
 
-    homeConfigurations.andriib =
+    homeConfigurations.andriibutko =
       let
-        system = "aarch64-darwin";
-        pkgs = nixpkgs.legacyPackages.${system};
-        lib = nixpkgs.lib;
+        pkgs = import nixpkgs { inherit system; };
       in
       home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = pkgs;
         modules = [
-          ./nix/home.nix
-          home-manager.darwinModules.home-manager
+        ./nix/home.nix
           {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-              "aspell-dict-en-science"
+            home.packages = with pkgs; [
+              skhd
+              # yabai #... decide to use Aerospace
+              #... other Koekeishiya tools
             ];
+
+            programs.zsh.enable = true;
+            programs.git.enable = true;
           }
         ];
       };

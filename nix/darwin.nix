@@ -13,7 +13,6 @@ let
   xdg_configHome = "${home}/.config";
 in
 {
-  time.timeZone = "Europe/Warsaw";
 
   nix = {
     package = pkgs.nixVersions.stable;
@@ -27,7 +26,7 @@ in
       max-jobs = "auto";
       cores = 0;
 
-      trusted-users = [ "root" "andriib" ];
+      trusted-users = [ "root" "andriibutko" ];
 
       # TODO: what is public keys?
       trusted-public-keys = [
@@ -44,7 +43,6 @@ in
 
   environment = {
     shells = with pkgs; [
-      fish
       zsh
       bash
     ];
@@ -52,7 +50,7 @@ in
 
   home-manager = {
     useGlobalPkgs = true;
-    users.andriib = lib.mkMerge [
+    users.andriibutko = lib.mkMerge [
       (import ./home.nix)
       {
         imports = [
@@ -112,11 +110,13 @@ in
     };
   };
 
-  networking.hostName = "andriib";
+  ids.gids.nixbld = 350;
+
+  networking.hostName = "ABUT-CAN-MAC";
   users = {
-    users.andriib = {
+    users.andriibutko = {
       shell = pkgs.fish;
-      home = "/Users/andriib";
+      home = "/Users/andriibutko";
     };
   };
 
@@ -134,24 +134,15 @@ in
     # onActivation.cleanup = "uninstall"; # removes manually install brews and casks
     brews = [
       "skhd"
-      "yabai"
-      "skhd"
-      "go"
     ];
     casks = [
-      "jetbrains-toolbox"
       "telegram"
-      "anki"
 			"obsidian"
       "visual-studio-code"
-      "arc"
-      "rancher"
-      "zoom"
       "fork"
-      "slack"
-      "grammarly-desktop"
       "spotify"
       "iterm2"
+      "monitorcontrol"
     ];
     taps = [
       "homebrew/bundle"
