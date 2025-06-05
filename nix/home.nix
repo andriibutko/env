@@ -8,6 +8,10 @@ let
   tmpdir = "/tmp";
 in
 {
+  imports = [
+    ./git.nix
+  ];
+
   home = {
     # These are packages that should always be present in the user
     # environment, though perhaps not the machine environment.
@@ -32,29 +36,6 @@ in
   fonts.fontconfig.enable = true;
 
   programs = {
-    git = {
-      enable = true;
-      userName = "Andrii Butko";
-      userEmail = "butkoandrea@gmail.com";
-      aliases = {
-        lg = "log --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an> -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'";
-      };
-      extraConfig = {
-        magithub = {
-          online = true;
-        };
-        github = {
-          user = "yourzbuddha";
-        };
-      };
-      includes = [
-        {
-          path = "${config.xdg.configHome}/git/local.config";
-        }
-      ];
-      lfs.enable = true;
-    };
-
     zsh = {
       plugins = [
         {
