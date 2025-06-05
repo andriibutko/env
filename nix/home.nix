@@ -45,6 +45,10 @@ in
     zsh = {
       enable = true;
       
+      # Enable essential features
+      enableCompletion = true;
+      enableAutosuggestions = true;
+      
       # Oh My Zsh configuration
       oh-my-zsh = {
         enable = true;
@@ -79,11 +83,6 @@ in
       # Custom initialization (runs after oh-my-zsh)
       # Only put truly machine-specific things in local files
       initExtra = ''
-        # Reproducible configuration
-        setopt AUTO_CD              # cd by typing directory name if it's not a command
-        setopt CORRECT_ALL          # autocorrect commands
-        setopt SHARE_HISTORY        # share history between sessions
-        
         # Only source local config for truly machine-specific things
         # (like work VPN settings, specific server IPs, API keys, etc.)
         if [[ -f "$HOME/.zshrc.local" ]]; then
